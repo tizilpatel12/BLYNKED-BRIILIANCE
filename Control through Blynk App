@@ -1,0 +1,41 @@
+/*
+  Blink
+
+  #define BLYNK_PRINT Serial
+
+/* Fill-in your Template ID (only if using Blynk.Cloud) */
+#define BLYNK_TEMPLATE_ID "TMPLmARX2b0T"
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+
+#define relay 4 // Define relay pin for ESP8266 (use D2 or GPIO 4)
+
+// You should get Auth Token in the Blynk App.
+// Go to the Project Settings (nut icon).
+char auth[] = "zSqj8lYcPrJNOpmUXtUGJeepv3Pl3zkz";
+
+// Your WiFi credentials.
+// Set password to "" for open networks.
+char ssid[] = "Tizil’s iPhone";
+char pass[] = "12345678";
+
+BLYNK_WRITE(V0)
+{
+  int pinValue = param.asInt(); // assigning incoming value from pin V0 to a variable
+  digitalWrite(relay, pinValue);  // Control relay pin
+  // process received value
+}
+
+void setup()
+{
+  // Debug console
+  Serial.begin(9600);
+  pinMode(relay, OUTPUT);  // Set relay pin as output
+  Blynk.begin(auth, ssid, pass);
+}
+
+void loop()
+{
+  Blynk.run();
+}
