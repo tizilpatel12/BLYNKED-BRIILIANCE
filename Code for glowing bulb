@@ -1,0 +1,33 @@
+#include <ESP8266WiFi.h> // Library for Wi-Fi‬
+‭#include <BlynkSimpleEsp8266.h> // Library for Blynk app‬
+‭ // Wi-Fi credentials‬
+‭ char ssid[] = "Tizil’s iPhone";‬
+‭ char pass[] = "12345678";‬
+‭ // Blynk authentication token‬
+‭ char auth[] = "zSqj8lYcPrJNOpmUXtUGJeepv3Pl3zkz";‬
+‭ // Pin configuration‬
+‭ #define RELAY_PIN D1 // GPIO pin connected to the relay‬
+‭ #define EOG_INPUT A0 // Analog input for EOG signals‬
+‭ // Threshold for blink detection‬
+‭ const int blinkThreshold = 500;‬
+‭ void setup() {‬
+‭ // Initialize serial communication‬
+‭ Serial.begin(115200);‬
+‭ // Initialize Blynk and Wi-Fi‬
+‭ Blynk.begin(auth, ssid, pass);‬
+‭ // Set pin modes‬
+‭ pinMode(RELAY_PIN, OUTPUT);‬
+‭ digitalWrite(RELAY_PIN, LOW); // Ensure relay starts off‬
+‭ }‬
+‭ void loop() {‬
+‭ Blynk.run(); // Run Blynk app‬
+‭ // Read EOG signal‬
+‭ int eogSignal = analogRead(EOG_INPUT);‬
+‭ Serial.println(eogSignal); // Print for debugging‬
+‭ // Check if signal exceeds threshold‬
+‭ if (eogSignal > blinkThreshold) {‬
+‭ digitalWrite(RELAY_PIN, !digitalRead(RELAY_PIN)); // Toggle relay state‬
+‭ delay(500); // Debounce delay‬
+‭ }‬
+‭ }‬
+‭
